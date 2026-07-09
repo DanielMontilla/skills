@@ -18,6 +18,7 @@
 | [grill-me](.agents/skills/grill-me/SKILL.md) | Interview the user relentlessly about a plan or design until reaching shared understanding |
 | [leaving-it-cleaner](.agents/skills/leaving-it-cleaner/SKILL.md) | Prompts incremental code hygiene improvements whenever touching a file |
 | [managing-feature-spec-defects](.agents/skills/managing-feature-spec-defects/SKILL.md) | Scans codebase for DEFECT: comments and maps them to feature spec tasks |
+| [modifying-skills](.agents/skills/modifying-skills/SKILL.md) | Modifies, updates, extends, or audits existing skills in .agents/skills/ |
 | [planning-git-commits](.agents/skills/planning-git-commits/SKILL.md) | Creates a commit plan with conventional commits based on file paths |
 | [scoping-features](.agents/skills/scoping-features/SKILL.md) | Guides feature scoping to current requirements only, flags speculative architecture |
 | [setup-typescript-package](.agents/skills/setup-typescript-package/SKILL.md) | Scaffolds TypeScript monorepo packages with consistent tooling and bundling |
