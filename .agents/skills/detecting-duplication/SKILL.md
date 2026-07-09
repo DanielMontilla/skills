@@ -1,0 +1,51 @@
+---
+name: detecting-duplication
+description: Scans for and refactors duplicated code, logic, and configuration. Use when reviewing PRs, cleaning tech debt, or before adding features.
+author: Daniel Montilla
+version: 1.0.0
+license: MIT
+dependencies: []
+groups:
+  - conventions
+  - typescript
+  - javascript
+  - refactoring
+  - javascript
+---
+
+# When To Use
+
+Reviewing PRs, cleaning tech debt, or before adding features. User mentions duplication, copy-paste, repeated code, DRY, or refactoring similar blocks.
+
+# Pipeline
+
+## 1. Search Repeated Patterns
+
+Scan files for identical or near-identical blocks: logic, validation, formatting, API calls, string literals, type definitions.
+
+## 2. Categorize Duplication
+
+### True Duplication
+
+Same logic, same reason to change. Extract.
+
+### Accidental Duplication
+
+Looks same but changes for different business reasons. Leave separate.
+
+## 3. Extract True Duplication
+
+Pull repeated logic into shared helper, utility, or constant. Use loops, config objects, or data-driven patterns. Unify duplicate types into shared types.
+
+## 4. Verify
+
+Check all call sites produce same behavior after extraction. Run test suite.
+
+## 5. Know When To Stop
+
+- Extracting would couple unrelated domains. Keep duplication.
+- Repeated code is trivial (1-2 lines) and unlikely to change. Leave it.
+
+# Reference
+
+- **CHANGELOG**: [CHANGELOG.md](CHANGELOG.md)
