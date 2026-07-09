@@ -1,0 +1,10 @@
+# Changelog
+
+## [1.0.0] - 2026-07-08
+
+### Added
+
+- Initial release of creating-typescript-modules skill
+- Module scaffolding pipeline: create directory, module file, index file, usage
+- Namespace-style re-export pattern (`export * as Name from`)
+- `.module.ts` convention for tree-shakable modules
