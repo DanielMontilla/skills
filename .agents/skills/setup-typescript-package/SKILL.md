@@ -2,8 +2,10 @@
 name: setup-typescript-package
 description: Scaffolds TypeScript monorepo packages and services with consistent tooling, tsdown bundling, linting, formatting, and typechecking. Use when setting up a new package or service in a monorepo.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - typescript
   - scaffolding
@@ -12,6 +14,8 @@ groups:
 # When To Use
 
 Setting up a new package in `packages/` or a new service in `services/`. User asks to scaffold, initialize, or create a new TypeScript package, module, library, or service.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

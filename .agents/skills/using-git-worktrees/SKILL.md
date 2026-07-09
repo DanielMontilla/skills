@@ -1,10 +1,19 @@
 ---
 name: using-git-worktrees
 description: Use starting feature work needs isolation from current workspace or before executing implementation plans - ensures isolated workspace exists via native tools or git worktree fallback
+version: 1.0.0
+dependencies:
+  - executing-skills
 groups:
   - git
   - workflow
 ---
+
+# When To Use
+
+Use when starting feature work that needs isolation from the current workspace, or before executing implementation plans.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Using Git Worktrees
 

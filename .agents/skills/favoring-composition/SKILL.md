@@ -2,9 +2,10 @@
 name: favoring-composition
 description: Identifies deep inheritance trees and replaces them with composition-based designs. Use when designing object relationships or refactoring brittle class hierarchies.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
-dependencies: []
+dependencies:
+  - executing-skills
 groups:
   - conventions
   - typescript
@@ -16,6 +17,8 @@ groups:
 # When To Use
 
 Designing object relationships or refactoring brittle class hierarchies. User mentions inheritance problems, deep class trees, extends, or "favor composition over inheritance".
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
@@ -53,4 +56,3 @@ Run test suite. External API must remain unchanged.
 
 # Reference
 
-- **CHANGELOG**: [CHANGELOG.md](CHANGELOG.md)

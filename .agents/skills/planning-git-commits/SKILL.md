@@ -2,8 +2,10 @@
 name: planning-git-commits
 description: Creates a commit plan with conventional commits based on file paths. Use when the user wants to push or commit changes to git.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - git
   - workflow
@@ -12,6 +14,8 @@ groups:
 # When To Use
 
 Use when the user asks to commit, push, or stage changes to git.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

@@ -2,7 +2,9 @@
 name: writting-jsdoc
 description: Generates concise JSDoc annotations for TypeScript functions, methods, interfaces, and classes. Use when the user asks to add, improve, or generate JSDoc documentation for TypeScript code.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
+dependencies:
+  - executing-skills
 groups:
   - skills
   - typescript
@@ -13,6 +15,8 @@ groups:
 # When To Use
 
 Use when the user asks to add JSDoc documentation, generate TypeDoc-compatible comments, or annotate TypeScript code with JSDoc. Also use when the user mentions writing documentation comments for functions, methods, interfaces, types, or classes.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

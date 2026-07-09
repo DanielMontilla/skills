@@ -2,12 +2,13 @@
 name: executing-feature-spec
 description: Executes feature spec tasks — orchestrates by type (exploratory, execution, planning, interruptor, defect) with human-in-the-loop phase interruptions and flat defect resolution. Reads feature state to determine active phase and resumes or begins execution accordingly.
 author: Daniel Montilla
-version: 1.2.0
+version: 1.2.1
 license: MIT
 groups:
   - skills
   - feature-spec
 dependencies:
+  - executing-skills
   - planning-git-commits
   - caveman-compression
 ---
@@ -15,6 +16,8 @@ dependencies:
 # When To Use
 
 Use when a feature spec exists in `.agents/features/<name>/` and its tasks need implementation. The agent reads the feature state, determines the active phase, and resumes or begins execution — always operating per-phase, spawning sub-agents for all pending tasks in parallel.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
@@ -100,5 +103,4 @@ Once user approves phase with no issues:
 # Reference
 
 - **GATES.md**: [GATES.md](GATES.md) (MUST READ)
-- **CHANGELOG.md**: [CHANGELOG.md](CHANGELOG.md)
 - **[authoring-feature-spec](../authoring-feature-spec/SKILL.md)** — Authoring pipeline for feature specs with phased task breakdown and validation gates

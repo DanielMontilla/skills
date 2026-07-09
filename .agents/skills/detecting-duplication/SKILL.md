@@ -2,9 +2,10 @@
 name: detecting-duplication
 description: Scans for and refactors duplicated code, logic, and configuration. Use when reviewing PRs, cleaning tech debt, or before adding features.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
-dependencies: []
+dependencies:
+  - executing-skills
 groups:
   - conventions
   - typescript
@@ -16,6 +17,8 @@ groups:
 # When To Use
 
 Reviewing PRs, cleaning tech debt, or before adding features. User mentions duplication, copy-paste, repeated code, DRY, or refactoring similar blocks.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
@@ -48,4 +51,3 @@ Check all call sites produce same behavior after extraction. Run test suite.
 
 # Reference
 
-- **CHANGELOG**: [CHANGELOG.md](CHANGELOG.md)

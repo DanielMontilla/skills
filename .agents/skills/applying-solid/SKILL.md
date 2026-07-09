@@ -2,8 +2,10 @@
 name: applying-solid
 description: Reviews object-oriented code against all 5 SOLID principles, detecting violations and suggesting corrections. Use when designing new classes/modules or refactoring existing ones.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - skills
   - typescript
@@ -14,6 +16,8 @@ groups:
 # When To Use
 
 Use when the user asks to audit, review, or refactor object-oriented code for SOLID adherence. Also use when designing new classes or modules that should follow SOLID principles.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

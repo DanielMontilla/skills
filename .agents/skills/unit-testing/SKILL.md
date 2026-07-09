@@ -2,11 +2,12 @@
 name: unit-testing
 description: Reviews tests for quality and structure. Probes whether tests test real behavior or just mocks. Verifies test directory layout. Use when writing tests, reviewing PRs with test changes, or before adding test coverage.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
 groups:
   - testing
 dependencies:
+  - executing-skills
   - creating-typescript-modules
   - setup-typescript-tests-with-effect
 ---
@@ -14,6 +15,8 @@ dependencies:
 # When To Use
 
 Reviewing test files for quality, structure, and proper coverage. Auditing PRs that include test changes. Before adding new tests to ensure conventions are followed. When investigating test reliability issues.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

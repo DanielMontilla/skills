@@ -2,8 +2,10 @@
 name: finding-skills
 description: Discovers and surfaces available skills matching user requests. Use when the user asks "what skills do you have", "how do I do X", or wants to find a skill for a specific task.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - skills
 ---
@@ -11,6 +13,8 @@ groups:
 # When To Use
 
 Use when the user asks "what skills do you have", "how do I do X", or wants to find a skill for a specific task.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

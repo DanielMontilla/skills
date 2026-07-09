@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1] - 2026-07-09
+
+### Added
+
+- Added `executing-skills` as required dependency in frontmatter
+- Added prerequisite alert after "When To Use" referencing executing-skills
+
 ## [1.2.0] - 2026-07-08
 
 ### Added

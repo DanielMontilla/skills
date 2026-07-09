@@ -1,9 +1,18 @@
 ---
 name: grill-me
 description: Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me".
+version: 1.0.0
+dependencies:
+  - executing-skills
 groups:
   - planning
 ---
+
+# When To Use
+
+Use when the user wants to stress-test a plan, get grilled on their design, or mentions "grill me".
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Grill Me
 

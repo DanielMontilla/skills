@@ -2,9 +2,10 @@
 name: leaving-it-cleaner
 description: Prompts incremental code hygiene improvements whenever touching a file. Use during any edit, bugfix, or feature work — leave the campground cleaner than before.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
-dependencies: []
+dependencies:
+  - executing-skills
 groups:
   - conventions
   - typescript
@@ -16,6 +17,8 @@ groups:
 # When To Use
 
 During any edit, bugfix, or feature work. User mentions code cleanup, hygiene, leaving code better, or boy scout rule.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
@@ -51,4 +54,3 @@ Spend no more than 30 seconds per cleanup. If more involved, leave `TODO` commen
 
 # Reference
 
-- **CHANGELOG**: [CHANGELOG.md](CHANGELOG.md)

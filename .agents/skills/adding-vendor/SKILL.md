@@ -2,8 +2,10 @@
 name: adding-vendor
 description: Adds and manages third-party vendor code as git submodules. Use when the user wants to add vendor source code for local reading or analysis.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - git
   - workflow
@@ -12,6 +14,8 @@ groups:
 # When To Use
 
 Use when the user asks to add vendor source code, pull in third-party dependencies for local reading, or analyze external codebases. Also use when managing existing git submodules for vendor code.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

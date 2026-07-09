@@ -2,19 +2,22 @@
 name: simplifying-code
 description: Audits code for over-engineering, unnecessary abstraction, and complexity. Suggests simpler alternatives. Use when a solution feels bloated or during code review.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
 groups:
   - conventions
   - typescript
   - javascript
   - refactoring
-dependencies: []
+dependencies:
+  - executing-skills
 ---
 
 # When To Use
 
 Code feels too complex, over-engineered, or hard to follow. User mentions bloat, unnecessary abstraction, over-engineering, or "this feels too complicated." Use during code review or before merging PRs.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
@@ -60,5 +63,4 @@ Run the test suite to confirm behavior is preserved after changes.
 
 # Reference
 
-- **CHANGELOG**: [CHANGELOG.md](CHANGELOG.md)
 - **Authoring standard**: [authoring-skills](../../authoring-skills/SKILL.md)

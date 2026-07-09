@@ -4,6 +4,7 @@ description: [Third-person description of what it does and WHEN to use it. Max 1
 author: [Your Name or Team]
 version: 1.0.0
 dependencies:
+  - executing-skills
   - [required-skill-name]
 # Use authoring-skills/SKILL.md §Groups for the full taxonomy.
 # Common values: planning, scaffolding, refactoring, documentation, workflow,
@@ -16,6 +17,8 @@ groups:
 # When To Use
 
 [Describe the exact scenarios, user requests, or triggers that should activate this skill.]
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

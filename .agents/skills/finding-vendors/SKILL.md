@@ -2,8 +2,10 @@
 name: finding-vendors
 description: Finds, explores, and reports on third-party vendor source code vendored as git submodules. Use when the user wants to examine vendor code, find a specific vendor package, or understand available vendor dependencies.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - vendors
   - workflow
@@ -12,6 +14,8 @@ groups:
 # When To Use
 
 Use when the user wants to examine vendor source code, find a specific vendor package in the project, or understand what vendors are available.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

@@ -2,8 +2,9 @@
 name: creating-typescript-structs
 description: Creates branded struct modules with validation, blueprint, and brand utilities in the structs folder. Use when creating a new branded type in packages/*/src/structs/.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 dependencies:
+  - executing-skills
   - creating-typescript-modules
 groups:
   - skills
@@ -14,6 +15,8 @@ groups:
 # When To Use
 
 Use when the user asks to create, scaffold, or add a new branded struct type under `packages/*/src/structs/`. Structs define **branded types** over primitives (`string` or `number`) using Effect's `Brand` module. Each struct is a namespace-style module with validation, `make`/`makeUnsafe`, and optional `Blueprint` Schema.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

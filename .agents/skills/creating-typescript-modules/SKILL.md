@@ -2,8 +2,10 @@
 name: creating-typescript-modules
 description: Creates tree-shakable TypeScript modules with namespace-style exports. Use when the user wants to scaffold a new reusable module package.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - skills
   - typescript
@@ -13,6 +15,8 @@ groups:
 # When To Use
 
 Use when the user asks to create, scaffold, or set up a new reusable TypeScript module. Also use when the user needs to organize existing code into a tree-shakable module structure.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

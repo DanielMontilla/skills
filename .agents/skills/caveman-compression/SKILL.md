@@ -2,8 +2,10 @@
 name: caveman-compression
 description: Aggressively removes stop words and grammatical scaffolding while preserving meaning. Use when user asks to compress, shorten, simplify, or caveman-style reduce text.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - skills
 ---
@@ -11,6 +13,8 @@ groups:
 # When To Use
 
 Use when asked to compress, shorten, simplify, or caveman-style reduce text while preserving semantic meaning.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

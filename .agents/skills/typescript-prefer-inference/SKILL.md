@@ -2,7 +2,9 @@
 name: typescript-prefer-inference
 description: Prefers TypeScript inference over explicit type annotations on variable declarations. Use when reviewing TypeScript code that overuses `: SomeType` annotations or `as` casts.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
+dependencies:
+  - executing-skills
 groups:
   - typescript
 ---
@@ -10,6 +12,8 @@ groups:
 # When To Use
 
 Use during TypeScript code review when you see explicit `: SomeType` annotations on variable declarations or `as` casts used for convenience. Apply when the user asks to clean up unnecessary type annotations.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

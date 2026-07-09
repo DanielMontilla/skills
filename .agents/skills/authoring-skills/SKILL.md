@@ -2,9 +2,10 @@
 name: authoring-skills
 description: Guides the creation, formatting, and refinement of Skills. Use when the user wants to write a new Skill, convert documentation into a Skill, or audit an existing Skill.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.1.0
 license: MIT
 dependencies:
+  - executing-skills
   - caveman-compression
 groups:
   - skills
@@ -13,6 +14,8 @@ groups:
 # When To Use
 
 Use when the user asks to create a new Skill, convert documentation or instructions into a Skill, or audit/improve an existing Skill.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
@@ -37,6 +40,8 @@ If anything is still unclear, **ask the user** before proceeding.
 Create `.agents/skills/<skill-name>/`. If `.agents/skills/` doesn't exist, ask the user whether to create it or choose a different location.
 
 ### Draft SKILL.md Frontmatter
+
+All generated skills MUST list `executing-skills` as a dependency — it governs skill execution.
 
 Write the YAML frontmatter. All fields below are required:
 
@@ -97,6 +102,8 @@ Structure SKILL.md with these top-level sections:
 ### When To Use
 
 A concise description of when this skill applies. What user requests or situations trigger it? Apply [caveman-compression](../caveman-compression/SKILL.md) principles — remove fluff, keep meaning.
+
+After the "When To Use" section, add a prerequisite alert loading [executing-skills](../executing-skills/SKILL.md), matching the pattern in the template.
 
 ### Pipeline
 

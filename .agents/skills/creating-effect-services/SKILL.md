@@ -2,8 +2,9 @@
 name: creating-effect-services
 description: Scaffolds Effect v4 services with ServiceMap.Service pattern. Use when creating a new service in packages/*/src/services/.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 dependencies:
+  - executing-skills
   - creating-typescript-modules
 groups:
   - skills
@@ -14,6 +15,8 @@ groups:
 # When To Use
 
 Use when the user asks to create, scaffold, or add a new Effect v4 service under `packages/*/src/services/`. The service follows the ServiceMap.Service pattern with required exports (Id, Impl, ServiceName, Default).
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
@@ -112,15 +115,6 @@ export * from "./[service-name]/index.js";
 ## Directory Structure
 
 ```
-creating-effect-services/
-├── SKILL.md
-├── CHANGELOG.md
-├── templates/
-│   └── service.module.ts        # Reusable service template (MUST READ)
-└── examples/
-    └── json.service.ts          # Complete JSON service example (MUST READ)
-
-(user project)
 packages/*/src/services/
 ├── index.ts                    # exports: export * from "./[service-name]/"
 └── [service-name]/

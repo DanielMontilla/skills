@@ -2,11 +2,12 @@
 name: typescript-conventions
 description: Index of TypeScript-specific skills in this project — lists short descriptions and paths. Use when deciding which TypeScript skill applies, or as a reference map of available TS tooling.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
 groups:
   - typescript
 dependencies:
+  - executing-skills
   - applying-solid
   - creating-effect-services
   - creating-typescript-modules
@@ -25,6 +26,8 @@ dependencies:
 # When To Use
 
 Use when the user's task involves TypeScript code. Also use as a quick-reference map of available TypeScript tooling in this project.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 

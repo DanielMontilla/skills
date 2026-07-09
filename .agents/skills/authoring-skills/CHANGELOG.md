@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0] - 2026-07-09
+
+### Added
+
+- Added `executing-skills` as required dependency in frontmatter
+- Added prerequisite alert after "When To Use" referencing executing-skills
+- Pipeline Step 2: all generated skills MUST list `executing-skills` as a dependency
+- Pipeline Step 4: added instruction to include prerequisite alert after "When To Use"
+- Template SKILL.md includes `executing-skills` in default dependencies and prerequisite alert
+
 ## [1.0.0] - 2026-07-08
 
 ### Added

@@ -2,8 +2,10 @@
 name: authoring-rules
 description: Creates and maintains agent rules and system prompts. Use when the user wants to create, improve, or audit agent rules, system prompts, or context files.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
+dependencies:
+  - executing-skills
 groups:
   - skills
   - documentation
@@ -12,6 +14,8 @@ groups:
 # When To Use
 
 Use when the user wants to create, edit, audit, or improve agent rules, system prompts, or context files.
+
+> **Prerequisite**: Load the [executing-skills](../executing-skills/SKILL.md) skill before running this pipeline. It governs how skills are loaded, executed, and verified.
 
 # Pipeline
 
