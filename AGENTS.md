@@ -2,7 +2,8 @@
 |-------|-------------|
 | [adding-vendor](.agents/skills/adding-vendor/SKILL.md) | Adds and manages third-party vendor code as git submodules. Use when the user wants to add vendor source code for local reading or analysis. |
 | [applying-solid](.agents/skills/applying-solid/SKILL.md) | Reviews object-oriented code against all 5 SOLID principles, detecting violations and suggesting corrections. Use when designing new classes/modules or refactoring existing ones. |
-| [authoring-feature-spec](.agents/skills/authoring-feature-spec/SKILL.md) | Authors a phased feature specification with typed tasks, validation gates, and workspace detection. Use when user wants to spec a new feature or rewrite an existing plan. |
+| [authoring-feature-spec](.agents/skills/authoring-feature-spec/SKILL.md) | Authors a phased feature specification with typed tasks and validation gates. Use when user wants to spec a new feature or rewrite an existing plan in the current workspace. |
+| [authoring-feature-spec-in-worktree](.agents/skills/authoring-feature-spec-in-worktree/SKILL.md) | Authors a phased feature specification with workspace isolation via git worktrees. Wraps authoring-feature-spec with worktree creation, initialization, and relocation. |
 | [authoring-rules](.agents/skills/authoring-rules/SKILL.md) | Creates and maintains agent rules and system prompts. Use when the user wants to create, improve, or audit agent rules, system prompts, or context files. |
 | [authoring-skills](.agents/skills/authoring-skills/SKILL.md) | Guides the creation, formatting, and refinement of Skills. Use when the user wants to write a new Skill, convert documentation into a Skill, or audit an existing Skill. |
 | [caveman-compression](.agents/skills/caveman-compression/SKILL.md) | Aggressively removes stop words and grammatical scaffolding while preserving meaning. Use when user asks to compress, shorten, simplify, or caveman-style reduce text. |

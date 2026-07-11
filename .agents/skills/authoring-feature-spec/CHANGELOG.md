@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.0.0] - 2026-07-11
+
+### Changed
+
+- Split into two skills: base `authoring-feature-spec` (non-worktree) and `authoring-feature-spec-in-worktree`
+- Removed all workspace management (detection, worktree creation, init, relocate)
+- Removed `using-git-worktrees` dependency
+- Renumbered pipeline steps 0-5
+- Updated description to clarify "current workspace" usage
+- Clarified caveman-compression: applies to content, not template structure
+
+### Added
+
+- Step 0 "Redirect if in non-feature worktree": detects non-feature linked worktrees and redirects to worktree variant
+
 ## [1.3.1] - 2026-07-09
 
 ### Fixed

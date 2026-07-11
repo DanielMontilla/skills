@@ -1,13 +1,12 @@
 ---
 name: authoring-feature-spec
-description: Authors a phased feature specification with typed tasks, validation gates, and workspace detection. Use when user wants to spec a new feature or rewrite an existing plan.
+description: Authors a phased feature specification with typed tasks and validation gates. Use when user wants to spec a new feature or rewrite an existing plan in the current workspace.
 author: Daniel Montilla
-version: 1.3.1
+version: 3.0.0
 license: MIT
 dependencies:
   - caveman-compression
   - grilling
-  - using-git-worktrees
   - finding-vendors
   - executing-skills
 groups:
@@ -24,16 +23,22 @@ When a user asks to spec a new feature, break a feature into actionable phases a
 
 # Pipeline
 
+## 0. Redirect if in non-feature worktree
+
+This skill authors specs in-place (current workspace). If the agent is inside a non-feature git worktree (e.g., `development`), delegate to the worktree variant instead.
+
+```bash
+GIT_DIR=$(cd "$(git rev-parse --git-dir)" 2>/dev/null && pwd -P)
+GIT_COMMON=$(cd "$(git rev-parse --git-common-dir)" 2>/dev/null && pwd -P)
+SUBMODULE=$(git rev-parse --show-superproject-working-tree 2>/dev/null)
+BRANCH=$(git branch --show-current)
+```
+
+- **Not in a worktree** (`GIT_DIR == GIT_COMMON` or `SUBMODULE` is non-empty): continue with this skill (in-place authoring).
+- **In a feature worktree** (`GIT_DIR != GIT_COMMON`, no submodule, `BRANCH` starts with `feat/`): already isolated — continue with this skill.
+- **In a non-feature worktree** (`GIT_DIR != GIT_COMMON`, no submodule, `BRANCH` does not start with `feat/`): load [authoring-feature-spec-in-worktree](../authoring-feature-spec-in-worktree/SKILL.md) instead. That skill handles worktree-isolated workflows. Do not continue here.
+
 ## 1. Gather Context
-
-### Determine workspace type
-
-Reference `using-git-worktrees` to detect isolation:
-
-- **worktree**: In an isolated git linked worktree (GIT_DIR != GIT_COMMON, not a submodule). A new feature-specific worktree will be created from the current branch.
-- **in-place**: In the main repository checkout (GIT_DIR == GIT_COMMON).
-
-If `in-place`, recommend isolating — ask if they want a worktree. If they accept, create one (using-git-worktrees). If they decline, stay `in-place`.
 
 ### Collect requirements
 
@@ -48,17 +53,6 @@ For each mandatory field:
 Do NOT proceed until all mandatory fields are filled. Offer recommendations whenever possible.
 
 **CRITICAL**: Load the [grilling](../grilling/SKILL.md) skill to deeply question the user. Resolve all ambiguities before moving to step 2.
-
-### Create Feature Worktree (worktree only)
-
-If workspace type is `worktree`, create a new feature-specific worktree before proceeding:
-
-1. Note current branch: `$(git branch --show-current)`
-2. Generate branch name: `feat/<feature-name>`
-3. Create worktree: `git worktree add ../<feature-name> -b feat/<feature-name>`
-4. Change into the new worktree
-
-All subsequent steps execute inside this worktree. The spec files will be created at `.agents/features/<feature-name>/` within it.
 
 ## 2. Design Phases & Task Types
 
@@ -96,7 +90,7 @@ Generate files from templates:
 - `GATES.md` when a task requires validation gates (see [templates/GATES.md](templates/GATES.md))
 
 When generating `TASK.md`, prune the `Completion` checklist to include only the items relevant to the assigned task `type`.
-Apply `caveman-compression` to all written files.
+Apply `caveman-compression` to generated file **content** — strip stop words, condense prose while preserving meaning. Templates provide structure; actual generated prose should be compressed.
 
 ## 5. Review & Refine
 
