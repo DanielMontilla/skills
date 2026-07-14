@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1] - 2026-07-14
+
+### Changed
+
+- Updated `finding-vendors` dependency to `finding-references` in frontmatter
+
 ## [1.0.0] - 2026-07-11
 
 ### Added

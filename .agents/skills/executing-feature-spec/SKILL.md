@@ -2,7 +2,7 @@
 name: executing-feature-spec
 description: Executes feature spec tasks — orchestrates by type (exploratory, execution, planning, interruptor, defect) with human-in-the-loop phase interruptions and flat defect resolution. Reads feature state to determine active phase and resumes or begins execution accordingly.
 author: Daniel Montilla
-version: 1.2.1
+version: 1.2.2
 license: MIT
 groups:
   - skills
@@ -66,7 +66,7 @@ Each task's `type` (in TASK.md frontmatter) determines behavior:
 
 | type | Behavior |
 |---|---|
-| **exploratory** | Scout — read code, map dependencies. Reference `finding-vendors` if vendor source/docs exist locally. Store findings in MEMORY.md. |
+| **exploratory** | Scout — read code, map dependencies. Reference `finding-references` if reference source/docs exist locally. Store findings in MEMORY.md. |
 | **planning** | Ingest exploration context from MEMORY.md. Design approach, update TASK.md, spawn new tasks if needed. May have GATES.md verifying facts. |
 | **execution** | Write/modify code. May optionally have GATES.md for validation (test, lint, format). |
 | **interruptor** | Hard stop. Present context, ask user question. Complete only after user answers. |

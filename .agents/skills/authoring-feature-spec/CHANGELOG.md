@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.1] - 2026-07-14
+
+### Changed
+
+- Updated `finding-vendors` dependency to `finding-references` in frontmatter and task type description
+
 ## [3.0.0] - 2026-07-11
 
 ### Changed
@@ -33,7 +39,7 @@
 
 - Workspace type detection and `in-place` / `worktree` terminology
 - Systematic missing-input handling with context-based recommendations
-- `finding-vendors` dependency for exploratory tasks
+- `finding-references` dependency for exploratory tasks (formerly finding-vendors)
 - All tasks own `MEMORY.md` for progress and handoff
 - Gate concept documentation (any task type can have gates)
 - `originator` field in TASK.md frontmatter
@@ -44,7 +50,7 @@
 
 - Pipeline: generate-files-first, then review (removed pre-generation approval gate)
 - Design Gates section: not restricted to execution tasks
-- Task types: removed `synthesizer`; `exploratory` references finding-vendors; `execution` gates optional
+- Task types: removed `synthesizer`; `exploratory` references finding-references; `execution` gates optional
 
 ### Removed
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.2] - 2026-07-14
+
+### Changed
+
+- Updated `finding-vendors` reference to `finding-references` in exploratory task description
+
 ## [1.2.1] - 2026-07-09
 
 ### Added

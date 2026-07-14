@@ -2,12 +2,12 @@
 name: authoring-feature-spec
 description: Authors a phased feature specification with typed tasks and validation gates. Use when user wants to spec a new feature or rewrite an existing plan in the current workspace.
 author: Daniel Montilla
-version: 3.0.0
+version: 3.0.1
 license: MIT
 dependencies:
   - caveman-compression
   - grilling
-  - finding-vendors
+  - finding-references
   - executing-skills
 groups:
   - skills
@@ -61,7 +61,7 @@ Organize the workload into sequential **Phases** (Phase A, Phase B, Phase C).
 - Tasks within the same Phase can be executed in parallel.
 
 Assign a specific `type` to every task. The type dictates how the executor agent behaves:
-- `exploratory`: Explores codebase, reads context. Reference `finding-vendors` skill when vendor source code or docs exist locally. Can ask the user or use web search.
+- `exploratory`: Explores codebase, reads context. Reference `finding-references` skill when reference source code or docs exist locally. Can ask the user or use web search.
 - `execution`: Modifies code. May optionally include `GATES.md` for validation checks.
 - `planning`: Ingests context from exploratory tasks (via MEMORY.md) and plans next steps. Can spawn tasks, update plans, or ask questions.
 - `interruptor`: Critical decision point. Halts and asks the user for a required decision before proceeding.
