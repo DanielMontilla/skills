@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.2.2] - 2026-07-14
+
+### Fixed
+
+- Task ID format changed from `<NN>` to `<NNN>` (3-digit zero-padded) to prevent overflow beyond 99 (M1)
+- Added cross-phase dependency validation rule: `depends-on` must reference same or earlier phase only (M2)
+- Removed all `(see ../../../REVIEW.md)` cross-references — replaced with self-contained inline explanations (M5)
+- Added note about phase letter overflow beyond Z (26+ phases) (M7)
+- Added `|| true` error guards to git commands in Step 0 bash block (N1)
+- Added `locked-phases` field to FEATURE.md frontmatter reference table (N2)
+
 ## [3.2.1] - 2026-07-14
 
 ### Fixed
