@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.2] - 2026-07-14
+
+### Fixed
+
+- Mermaid `END` node renamed to `DONE` to avoid keyword conflict (n4)
+- Remediation task loop now re-runs adversarial review (M → RX) instead of skipping it (C1, M3)
+- Step 4 prose: reset review task to `pending` after remediation, re-run review, mark complete only at end-of-phase prompt (C1, M3)
+- Task ID generation changed from 2-digit `<NN>` to 3-digit `<NNN>` zero-padded (A001–A999) to prevent overflow (M1)
+- Defect-child scanning uses `originator` only; `related-tasks` is optional cross-reference, not used for blocking (M4)
+- Added spec validation sub-step: checks FEATURE.md, TASK.md frontmatter, canonical status enum, `locked-phases` parseability (M5)
+- Invalid status values coerced to `blocked` with deviation logged in MEMORY.md (m1)
+- Removed dead `../../../REVIEW.md` references; replaced with inline explanations (m5)
+- Updated GATES.md: added validation gates, independent-subagent review gate, review-task lifecycle gate (C1, M3, M5)
+
 ## [1.3.1] - 2026-07-14
 
 ### Fixed

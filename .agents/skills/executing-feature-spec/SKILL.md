@@ -2,7 +2,7 @@
 name: executing-feature-spec
 description: Executes feature spec tasks — orchestrates by type (exploratory, execution, planning, interruptor, defect, review) with human-in-the-loop phase interruptions, independent-subagent adversarial reviews, and flat defect resolution. Reads feature state to determine active phase and resumes or begins execution accordingly.
 author: Daniel Montilla
-version: 1.3.1
+version: 1.3.2
 license: MIT
 groups:
   - skills
@@ -12,6 +12,7 @@ dependencies:
   - planning-git-commits
   - caveman-compression
   - finding-references
+  - adversarial-review
 ---
 
 # When To Use
@@ -25,7 +26,7 @@ Use when a feature spec exists in `.agents/features/<name>/` and its tasks need 
 ```mermaid
 flowchart TD
     A[Load State] --> B{Active Phase?}
-    B -->|None found| END[Feature complete]
+    B -->|None found| DONE[Feature complete]
     B -->|Phase X| C[Spawn sub-agents for all<br>non-review pending tasks<br>in parallel]
     C --> D{All non-review tasks<br>in Phase X done?}
     D -->|No| C
@@ -40,7 +41,7 @@ flowchart TD
     K -->|Modify| L[Update per changes]
     L --> J
     K -->|Approved| M[Execute remediation tasks]
-    M --> D
+    M --> RX
     RZ -->|No| E
     E --> F[Prompt user:<br>Phase X complete. Review work?]
     F --> G{User feedback?}
@@ -54,7 +55,7 @@ flowchart TD
     N --> O{Approve?}
     O -->|Approved| Q[Create commits<br>Lock Phase X]
     Q --> B
-    END
+    DONE
 ```
 
 ## 1. Load State
@@ -62,20 +63,26 @@ flowchart TD
 - Locate `.agents/features/<name>/`.
 - Read FEATURE.md, all TASK.md files — note `type`, `depends-on`, `status`.
   - Read each task's MEMORY.md and, if present, its GATES.md.
+  - Validate the spec:
+    - FEATURE.md exists and parses correctly (valid YAML frontmatter)
+    - All TASK.md files have valid YAML frontmatter
+    - All `status` values are in the canonical enum (`pending | in-progress | complete | blocked`)
+    - `locked-phases` is parseable as a comma-separated list
+    - If any status value is not in the canonical enum, coerce it to `blocked`, log a deviation in the task's MEMORY.md, and warn the user
 - Map tasks as: `complete`, `in-progress`, `pending`, `blocked` — the canonical status enum defined in [authoring-feature-spec](../authoring-feature-spec/SKILL.md). Do not invent other status values (e.g. `defect`).
-  - Determine active phase: the first phase with any pending/in-progress tasks.
-  - If a task has `type: defect` child tasks that are still `pending` or `in-progress`, set the parent task's `status: blocked` (per the canonical enum in authoring-feature-spec) and do not treat it as actionable until those children close. (Resolves REVIEW.md F6.)
+  - Determine active phase: the first phase with any pending/in-progress tasks. Phases listed in FEATURE.md `locked-phases` are skipped (already committed and locked).
+  - If a task has `type: defect` child tasks that are still `pending` or `in-progress`, set the parent task's `status: blocked` (per the canonical enum in authoring-feature-spec) and do not treat it as actionable until those children close. To find a task's open defect children, scan all TASK.md whose `originator` is `defect:<this-id>`. The `related-tasks` field is an optional cross-reference only and is not used for blocking.
 
 ## 2. Execute Phase
 
 Spawn sub-agents for pending tasks in the active phase, in dependency order:
 
-- **`interruptor` = hard stop.** Do NOT spawn an `interruptor` in parallel with other work. When an `interruptor` task is pending, halt the phase, present its context, and await the user's decision before spawning any subsequent tasks. (Resolves REVIEW.md F1.)
+- **`interruptor` = hard stop.** When any `interruptor` in the active phase becomes runnable, halt spawning of all further tasks and present its context for a required user decision before spawning anything else; re-check after each task completes. An `interruptor` must never run in parallel with other work (interruptor now halts as hard stop).
 - **`review` tasks are excluded** from the parallel spawn — they run after the non-review tasks complete (see Step 4) via an independent subagent.
-- **`planning` tasks must wait** for any in-phase `exploratory`/`execution`/`defect` tasks listed in their `depends-on` to reach `complete` before being spawned; do not run them in parallel with unfinished dependencies. (Resolves REVIEW.md F2.)
+- **`planning` tasks must wait** for any in-phase `exploratory`/`execution`/`defect` tasks listed in their `depends-on` to reach `complete` before being spawned; do not run them in parallel with unfinished dependencies (planning tasks wait for dependencies).
 - All other pending tasks whose `depends-on` is satisfied may run in parallel.
 
-Sub-agents MUST read the `MEMORY.md` of any tasks listed in their `depends-on` frontmatter to ingest prior context and handoff instructions. Apply [caveman-compression](../caveman-compression/SKILL.md) **only to free-form prose** when writing files — never compress frontmatter or MEMORY.md `Handoff`/`Deviations`/`Requirements` sections (see REVIEW.md F3).
+Sub-agents MUST read the `MEMORY.md` of any tasks listed in their `depends-on` frontmatter to ingest prior context and handoff instructions. Apply [caveman-compression](../caveman-compression/SKILL.md) **only to free-form prose** when writing files — never compress frontmatter or MEMORY.md `Handoff`/`Deviations` sections and TASK.md `Requirements` (compression scope limited to free-form prose).
 
 ## 3. Execute Based on Task `type`
 
@@ -90,7 +97,7 @@ Each task's `type` (in TASK.md frontmatter) determines behavior:
 | **defect** | Fix bugs from phase reviews. Same as execution, focused on `related-tasks`. |
 | **review** | Run by an **INDEPENDENT subagent** (never the agents that authored/executed the phase). Execute the `adversarial-review` skill over the completed phase and write findings to `REVIEW.md`. Block completion on human review of `REVIEW.md`; accepted findings become `defect`/`execution` remediation tasks. |
 
-Before executing a task, check the `FEATURE.md` task table's `Gates` column. If `Yes`, the sub-agent must execute and pass `<task-dir>/GATES.md` before marking the task complete.
+Before executing a task, check the `FEATURE.md` task table's `Gates` column. If `Yes`, the sub-agent must execute and pass `<task-dir>/GATES.md` before marking the task complete. If the column says `Yes` but no `<task-dir>/GATES.md` exists, treat the task as failed and report the mismatch. Conversely, if a `GATES.md` exists but the column says `No`, warn and still execute its gates.
 
 ## 4. End-of-Phase Review & Defect Loop
 
@@ -100,18 +107,18 @@ When all **non-review** tasks in the current Phase complete:
 2. **If the phase contains a `review` task** → run the independent-subagent review flow:
        - Spawn an **independent subagent** (distinct from any agent that authored or executed tasks in this phase) to execute the `adversarial-review` skill over the completed phase. The subagent writes its findings to `REVIEW.md` in the `review` task directory.
        - **Prompt user:** "Phase <X> review ready. Review `REVIEW.md`?" Present the findings.
-       - For each **accepted** finding, author a remediation task (`type: defect` or `execution`) referencing the finding. Determine the new task ID by scanning existing tasks in the active phase and incrementing the highest number.
+       - For each **accepted** finding, author a remediation task (`type: defect` or `execution`) referencing the finding. Determine the new task ID by scanning existing tasks in the active phase and incrementing the highest number, using zero-padded three-digit numbering (A001–A999).
        - For each **dismissed** finding, record the reason in `REVIEW.md` under Human Review.
-       - Create the remediation task directories (`<PHASE_LETTER><NN>-<name>/`) within the active phase namespace. Do not nest tasks inside other task directories.
+       - Create the remediation task directories (`<PHASE_LETTER><NNN>-<name>/`) within the active phase namespace. Do not nest tasks inside other task directories.
        - Update the Task Table in `FEATURE.md` to include the remediation tasks.
        - Present the remediation task list to the user for approval or modification; iterate until approved.
-       - **Execute remediation tasks** with sub-agents (same as step 2), then loop back to this step until no accepted findings remain.
-       - Mark the `review` task complete only after the human has reviewed `REVIEW.md` and all accepted findings are either closed or tracked.
+       - **Execute remediation tasks** with sub-agents (same as step 2). After execution, reset the phase's review task `status` to `pending` and re-run the independent-subagent review (loop back to the adversarial-review step) until no accepted findings remain.
+       - Keep the `review` task `status` as `pending` throughout the review/defect loop. Only mark it `complete` after the human reports "no issues" at the Phase X complete prompt (step 3).
 3. **Prompt user:** "Phase <X> complete. Review work?" (manual catch-all beyond the `review` task).
 4. **If user reports issues** → agent groups reported issues into defect tasks:
-       - Each defect task gets `type: defect`, `originator: defect:<parent-task-id>` linking to the originating task in the same phase.
-       - Determine the new task ID by scanning the existing tasks in the active phase (e.g., A01, A02) and incrementing the highest number (e.g., A03).
-       - Create a standard task directory (`<PHASE_LETTER><NN>-<name>/`) for each defect task within the active phase namespace. Do not nest tasks inside other task directories.
+        - Each defect task gets `type: defect`, `originator: defect:<parent-task-id>` linking to the originating task in the same phase.
+        - Determine the new task ID by scanning the existing tasks in the active phase (e.g., A001, A002) and incrementing the highest number (e.g., A003).
+        - Create a standard task directory (`<PHASE_LETTER><NNN>-<name>/`) for each defect task within the active phase namespace. Do not nest tasks inside other task directories.
        - Update the Task Table in `FEATURE.md` to include the newly appended defect tasks.
        - Present the generated defect task list to the user for approval or modification.
        - Iterate until user approves the proposed defect tasks.
@@ -126,9 +133,9 @@ Once user approves phase with no issues:
 2. Plan commits and show plan to user.
 3. Wait for user approval or modification requests.
 4. Iterate until user approves.
-5. Create commits, lock phase, proceed to next phase.
+5. Create commits. Append the completed phase letter to FEATURE.md frontmatter `locked-phases` (comma-separated, e.g. `A,B`) to lock it, then proceed to the next phase. A locked phase is skipped on re-entry (see Step 1).
 
 # Reference
 
-- **GATES.md**: [GATES.md](GATES.md) (MUST READ)
+- **GATES.md**: [GATES.md](../authoring-feature-spec/templates/GATES.md) (MUST READ)
 - **[authoring-feature-spec](../authoring-feature-spec/SKILL.md)** — Authoring pipeline for feature specs with phased task breakdown and validation gates
