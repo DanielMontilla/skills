@@ -2,7 +2,7 @@
 name: authoring-feature-spec
 description: Authors a phased feature specification with typed tasks and validation gates. Use when user wants to spec a new feature or rewrite an existing plan in the current workspace.
 author: Daniel Montilla
-version: 3.2.0
+version: 3.2.1
 license: MIT
 dependencies:
   - caveman-compression
@@ -36,6 +36,7 @@ BRANCH=$(git branch --show-current)
 
 - **Not in a worktree** (`GIT_DIR == GIT_COMMON` or `SUBMODULE` is non-empty): continue with this skill (in-place authoring).
 - **In a feature worktree** (`GIT_DIR != GIT_COMMON`, no submodule, `BRANCH` starts with `feat/`): already isolated — continue with this skill.
+  - Note: a worktree is only classified as a *feature* worktree when its branch starts with `feat/`. When creating isolation via `using-git-worktrees`, always pass `feat/<feature-name>` as the branch; its default `<branch>-worktree` fallback is NOT recognized as a feature worktree on re-entry (see REVIEW.md F9).
 - **In a non-feature worktree** (`GIT_DIR != GIT_COMMON`, no submodule, `BRANCH` does not start with `feat/`): load [authoring-feature-spec-in-worktree](../authoring-feature-spec-in-worktree/SKILL.md) instead. That skill handles worktree-isolated workflows. Do not continue here.
 
 ## 1. Gather Context
@@ -50,7 +51,7 @@ For each mandatory field:
 - **requirements**: If missing, ASK. Help user articulate what success looks like.
 - **goals**: If missing, ASK. What should be different when done?
 
-Do NOT proceed until all mandatory fields are filled. Offer recommendations whenever possible.
+Do NOT proceed until all mandatory fields are filled. Offer recommendations whenever possible. (Mandatory-field collection is performed via the `grilling` skill, one question at a time — see the CRITICAL note below — so field collection and grilling are the same flow, not separate loops. See REVIEW.md F10.)
 
 **CRITICAL**: Load the [grilling](../grilling/SKILL.md) skill to deeply question the user. Resolve all ambiguities before moving to step 2.
 
@@ -62,7 +63,7 @@ Organize the workload into sequential **Phases** (Phase A, Phase B, Phase C).
 
 Assign a specific `type` to every task. The type dictates how the executor agent behaves:
 - `exploratory`: Explores codebase, reads context. Reference `finding-references` skill when reference source code or docs exist locally. Can ask the user or use web search.
-- `execution`: Modifies code. May optionally include `GATES.md` for validation checks.
+- `execution`: Modifies code. May optionally include a `GATES.md` for validation checks; for tasks that modify code, prefer including `format:check`, `lint:check`, `ts:check`, and `test` (where applicable), since the adversarial-review spec-audit expects these standard checks when a GATES.md exists (see REVIEW.md F4).
 - `planning`: Ingests context from exploratory tasks (via MEMORY.md) and plans next steps. Can spawn tasks, update plans, or ask questions.
 - `interruptor`: Critical decision point. Halts and asks the user for a required decision before proceeding.
 - `defect`: Fixes bugs from phase reviews. Appended at execution time by defect management — not authored upfront. Treated like execution, focused on `related-tasks`.
@@ -102,7 +103,7 @@ Generate files from templates:
 - `GATES.md` when a task requires validation gates (see [templates/GATES.md](templates/GATES.md))
 
 When generating `TASK.md`, prune the `Completion` checklist to include only the items relevant to the assigned task `type`.
-Apply `caveman-compression` to generated file **content** — strip stop words, condense prose while preserving meaning. Templates provide structure; actual generated prose should be compressed.
+Apply `caveman-compression` **only to free-form prose** generated for FEATURE.md/TASK.md bodies — strip stop words, condense prose while preserving meaning. **Never** compress frontmatter values or MEMORY.md `Handoff`/`Deviations`/`Requirements` sections, which must remain verbatim for reliable cross-phase handoff (see REVIEW.md F3). Templates provide structure; actual generated prose should be compressed.
 
 ## 5. Review & Refine
 
@@ -129,7 +130,7 @@ Show the user the generated directory tree, phase breakdown, task types, and gat
 | `type` | `exploratory` / `execution` / `planning` / `interruptor` / `defect` / `review` | Determines executor behavior |
 | `originator` | `user` / `defect` / `defect:<id>` / `planner:<id>` | Who created this task |
 | `depends-on` | `<task-ids>` | Comma-separated task IDs this blocks on |
-| `related-tasks` | `<task-ids>` | Comma-separated task IDs this fixes (only for `defect` type) |
+| `related-tasks` | `<task-ids>` | Comma-separated task IDs this fixes; for `defect` tasks the primary link is `originator: defect:<id>` (see REVIEW.md F7) and `related-tasks` is an optional cross-reference |
 | `status` | `pending` / `in-progress` / `complete` / `blocked` | Current task state (see Status enum below) |
 
 ## Status Enum (canonical — single source of truth)

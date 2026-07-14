@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.2.1] - 2026-07-14
+
+### Fixed
+
+- Scoped `caveman-compression` to free-form prose; never compress frontmatter or MEMORY.md Handoff/Deviations/Requirements (REVIEW.md F3)
+- `execution` tasks now recommend standard gates (`format:check`/`lint:check`/`ts:check`/`test`) when a GATES.md exists (REVIEW.md F4)
+- Clarified `related-tasks` is an optional cross-reference; primary defect link is `originator: defect:<id>` (REVIEW.md F7)
+- Documented the `feat/<name>` feature-branch convention and the `using-git-worktrees` `<branch>-worktree` fallback caveat (REVIEW.md F9)
+- Clarified mandatory-field collection and `grilling` are the same one-question-at-a-time flow (REVIEW.md F10)
+- Removed bare `defect` option from `templates/TASK.md` `originator` field (REVIEW.md F7)
+
 ## [3.2.0] - 2026-07-14
 
 ### Added
