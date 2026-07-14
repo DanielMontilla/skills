@@ -1,14 +1,14 @@
 ---
-id: <LETTER><NN>
+id: <LETTER><NNN>
 name: <short-kebab-name>
 type: exploratory | execution | planning | interruptor | defect | review
 originator: user | defect:<task-id> | planner:<task-id>
 depends-on: <task-ids>
 related-tasks: <task-ids>
-status: pending|in-progress|complete|blocked
+status: <pending | in-progress | complete | blocked>
 ---
 
-# Task <LETTER><NN>: <Title>
+# Task <LETTER><NNN>: <Title>
 
 ## Type: <Type>
 
@@ -28,6 +28,14 @@ status: pending|in-progress|complete|blocked
 - [ ] Output summarized in MEMORY.md (if exploratory/planning)
 - [ ] User decision recorded (if interruptor)
 - [ ] Findings written to REVIEW.md and reviewed by human (if review)
+
+## Example: review task
+
+For `type: review`, this task is executed by an **independent subagent** (never the agent that authored/executed the phase) running the `adversarial-review` skill. Write findings to `REVIEW.md` in this task directory. The phase is blocked until the human has reviewed `REVIEW.md` and accepted, deferred, or dismissed each finding.
+
+## Example: defect task
+
+For `type: defect`, set `originator: defect:<parent-task-id>` linking to the task that produced the finding, and optionally `related-tasks` as a cross-reference.
 
 ## Notes
 

@@ -1,9 +1,10 @@
 ---
 name: <kebab-name>
 status: in-progress
-workspace-type: worktree | in-place
+workspace-type: <worktree | in-place>
 author: <name>
 created: <date>
+locked-phases: <comma-separated phase letters committed & locked, e.g. A,B; empty until phases are committed>
 ---
 
 # <Feature Title>
@@ -20,6 +21,8 @@ created: <date>
 
 | ID | Name | Type | Status | Gates |
 |---|---|---|---|---|
-| A01 | <short-name> | exploratory | pending | No |
-| B01 | <short-name> | execution | pending | Yes |
-| B02 | <short-name> | interruptor | pending | No |
+| A001 | explore-auth | exploratory | pending | No |
+| A002 | implement-login | execution | pending | Yes |
+| A003 | interrupt-decision | interruptor | pending | No |
+| A099 | review-phase | review | pending | No |
+| B001 | implement-feature | execution | pending | Yes |

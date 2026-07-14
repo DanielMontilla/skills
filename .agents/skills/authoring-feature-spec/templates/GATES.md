@@ -1,9 +1,14 @@
 ## Phase 0: Core Validation
 
-- [ ] <check 1>
-- [ ] <check 2>
+- [ ] format:check
+- [ ] lint:check
 
 ## Phase 1: Verification
 
-- [ ] <check 3>
-- [ ] <check 4>
+- [ ] ts:check
+- [ ] test (if applicable)
+
+## Phase 2: Custom Checks
+
+- [ ] <custom validation>
+- [ ] <custom validation>
