@@ -2,7 +2,7 @@
 name: adversarial-review
 description: Performs a hostile, bug-hunting code review that assumes the author made mistakes. Surfaces possible bugs, edge cases, security holes, missed refactors, missing tests, and documentation gaps. Use when reviewing code, PRs, or diffs before merge.
 author: Daniel Montilla
-version: 1.0.0
+version: 1.0.1
 license: MIT
 dependencies:
   - executing-skills
@@ -41,7 +41,7 @@ Assume the spec is incomplete or wrong and prove it. Audit the spec artifacts fo
 
 - **Requirements/goal gaps**: requirements or goals that are vague, unmeasurable, or missing; success criteria that cannot be verified. Flag requirements with no corresponding task.
 - **Task coverage**: tasks whose work is not traceable to a requirement/goal (scope creep); requirements not covered by any task.
-- **Missing gates on execution**: any `execution` task without a `GATES.md`, or whose gates omit `format:check`, `lint:check`, `ts:check`, and `test` where applicable. These tasks can complete unvalidated.
+- **Missing gates on execution**: any `execution` task that declares a `GATES.md` but omits `format:check`, `lint:check`, `ts:check`, and `test` where applicable. A missing `GATES.md` is only a Minor finding when the task modifies code and has no other validation path — gates are optional per authoring-feature-spec (see REVIEW.md F4). These tasks can complete unvalidated.
 - **Untested tasks**: `execution` tasks with no test plan or test gate — a defect hiding place.
 - **Dependency integrity**: `depends-on` / `related-tasks` referencing non-existent task IDs, cycles, or ordering that makes a phase unexecutable; tasks that depend on work in a later phase.
 - **Type misuse**: `interruptor` tasks that don't actually require a hard user decision (false gates); `defect` tasks missing `related-tasks`; `exploratory`/`planning` tasks that should have fact-verifying gates but don't.
