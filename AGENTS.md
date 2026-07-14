@@ -1,6 +1,6 @@
 | Skill | Description |
 |-------|-------------|
-| [adding-vendor](.agents/skills/adding-vendor/SKILL.md) | Adds and manages third-party vendor code as git submodules. Use when the user wants to add vendor source code for local reading or analysis. |
+| [adding-references](.agents/skills/adding-references/SKILL.md) | Adds and manages third-party reference source code as git submodules. Use when the user wants to add reference source code for local reading or analysis. |
 | [applying-solid](.agents/skills/applying-solid/SKILL.md) | Reviews object-oriented code against all 5 SOLID principles, detecting violations and suggesting corrections. Use when designing new classes/modules or refactoring existing ones. |
 | [authoring-feature-spec](.agents/skills/authoring-feature-spec/SKILL.md) | Authors a phased feature specification with typed tasks and validation gates. Use when user wants to spec a new feature or rewrite an existing plan in the current workspace. |
 | [authoring-feature-spec-in-worktree](.agents/skills/authoring-feature-spec-in-worktree/SKILL.md) | Authors a phased feature specification with workspace isolation via git worktrees. Wraps authoring-feature-spec with worktree creation, initialization, and relocation. |
@@ -15,7 +15,7 @@
 | [executing-skills](.agents/skills/executing-skills/SKILL.md) | Loads, executes, and verifies skills from .agents/skills/. Use when the user's request matches an existing skill's description or when instructed to use a specific skill. |
 | [favoring-composition](.agents/skills/favoring-composition/SKILL.md) | Identifies deep inheritance trees and replaces them with composition-based designs. Use when designing object relationships or refactoring brittle class hierarchies. |
 | [finding-skills](.agents/skills/finding-skills/SKILL.md) | Discovers and surfaces available skills matching user requests. Use when the user asks "what skills do you have", "how do I do X", or wants to find a skill for a specific task. |
-| [finding-vendors](.agents/skills/finding-vendors/SKILL.md) | Finds, explores, and reports on third-party vendor source code vendored as git submodules. Use when the user wants to examine vendor code, find a specific vendor package, or understand available vendor dependencies. |
+| [finding-references](.agents/skills/finding-references/SKILL.md) | Finds, explores, and reports on third-party reference source code vendored as git submodules. Use when the user wants to examine reference code, find a specific reference package, or understand available reference dependencies. |
 | [grilling](.agents/skills/grilling/SKILL.md) | Grill the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases. |
 | [leaving-it-cleaner](.agents/skills/leaving-it-cleaner/SKILL.md) | Prompts incremental code hygiene improvements whenever touching a file. Use during any edit, bugfix, or feature work — leave the campground cleaner than before. |
 | [modifying-skills](.agents/skills/modifying-skills/SKILL.md) | Modifies, updates, extends, or audits existing skills in .agents/skills/. Use when the user wants to edit an existing skill, add content to a skill, audit a skill for quality, or update skill metadata. |

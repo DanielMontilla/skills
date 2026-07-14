@@ -7,5 +7,5 @@
 ## Phase 2: Content
 
 - [ ] Pipeline steps are clear and actionable
-- [ ] Vendor registry table is accurate and up to date
+- [ ] Reference registry table is accurate and up to date
 - [ ] READ ONLY warning is present
