@@ -2,7 +2,7 @@
 name: executing-feature-spec
 description: Executes feature spec tasks — orchestrates by type (exploratory, execution, planning, interruptor, defect, review) with human-in-the-loop phase interruptions, independent-subagent adversarial reviews, and flat defect resolution. Reads feature state to determine active phase and resumes or begins execution accordingly.
 author: Daniel Montilla
-version: 1.3.0
+version: 1.3.1
 license: MIT
 groups:
   - skills
@@ -11,6 +11,7 @@ dependencies:
   - executing-skills
   - planning-git-commits
   - caveman-compression
+  - finding-references
 ---
 
 # When To Use
@@ -60,13 +61,21 @@ flowchart TD
 
 - Locate `.agents/features/<name>/`.
 - Read FEATURE.md, all TASK.md files — note `type`, `depends-on`, `status`.
-- Read MEMORY.md and any GATES.md.
+  - Read each task's MEMORY.md and, if present, its GATES.md.
 - Map tasks as: `complete`, `in-progress`, `pending`, `blocked` — the canonical status enum defined in [authoring-feature-spec](../authoring-feature-spec/SKILL.md). Do not invent other status values (e.g. `defect`).
-- Determine active phase: the first phase with any pending/in-progress tasks.
+  - Determine active phase: the first phase with any pending/in-progress tasks.
+  - If a task has `type: defect` child tasks that are still `pending` or `in-progress`, set the parent task's `status: blocked` (per the canonical enum in authoring-feature-spec) and do not treat it as actionable until those children close. (Resolves REVIEW.md F6.)
 
 ## 2. Execute Phase
 
-Spawn sub-agents for all **non-review** pending tasks in the active phase in parallel (respecting `depends-on` within the phase). `review` tasks are excluded from this parallel spawn — they run after the non-review tasks complete (see Step 4) via an independent subagent. Sub-agents MUST read the `MEMORY.md` of any tasks listed in their `depends-on` frontmatter to ingest prior context and handoff instructions. Apply [caveman-compression](../caveman-compression/SKILL.md) when writing to MEMORY.md, TASK.md, or any generated files.
+Spawn sub-agents for pending tasks in the active phase, in dependency order:
+
+- **`interruptor` = hard stop.** Do NOT spawn an `interruptor` in parallel with other work. When an `interruptor` task is pending, halt the phase, present its context, and await the user's decision before spawning any subsequent tasks. (Resolves REVIEW.md F1.)
+- **`review` tasks are excluded** from the parallel spawn — they run after the non-review tasks complete (see Step 4) via an independent subagent.
+- **`planning` tasks must wait** for any in-phase `exploratory`/`execution`/`defect` tasks listed in their `depends-on` to reach `complete` before being spawned; do not run them in parallel with unfinished dependencies. (Resolves REVIEW.md F2.)
+- All other pending tasks whose `depends-on` is satisfied may run in parallel.
+
+Sub-agents MUST read the `MEMORY.md` of any tasks listed in their `depends-on` frontmatter to ingest prior context and handoff instructions. Apply [caveman-compression](../caveman-compression/SKILL.md) **only to free-form prose** when writing files — never compress frontmatter or MEMORY.md `Handoff`/`Deviations`/`Requirements` sections (see REVIEW.md F3).
 
 ## 3. Execute Based on Task `type`
 

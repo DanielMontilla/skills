@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.1] - 2026-07-14
+
+### Fixed
+
+- `interruptor` tasks now halt the phase as a hard stop instead of running in parallel (REVIEW.md F1)
+- `planning` tasks now wait for in-phase `depends-on` tasks to reach `complete` before spawning (REVIEW.md F2)
+- Scoped `caveman-compression` to free-form prose only; never compress frontmatter or MEMORY.md Handoff/Deviations/Requirements (REVIEW.md F3)
+- Added `finding-references` to `dependencies` frontmatter (REVIEW.md F5)
+- Executor now marks a parent `blocked` while its `type: defect` children are open (REVIEW.md F6)
+- Clarified GATES.md wording in Load State step (REVIEW.md F11)
+- Corrected stale 1.1.0 entry claiming defects come only from user feedback (REVIEW.md F8)
+
 ## [1.3.0] - 2026-07-14
 
 ### Added
@@ -49,7 +61,7 @@
 - Removed SINGLE/MULTI mode concept; always executes per-phase with sub-agents
 - Pipeline: Load State → Execute Phase → Review/Defect Loop → Per-Phase Commit → next phase
 - Active phase determined automatically from task states (first phase with pending/in-progress)
-- Removed `managing-feature-spec-defects` dependency; defects come from user feedback only
+  - Removed `managing-feature-spec-defects` dependency; defects originate from user feedback **and** from accepted `review`-task findings (remediation tasks) — see the 1.3.0 `review` flow
 - `caveman-compression` applies to file writes only, skill referenced via markdown link
 - GATES.md: removed mode gate, split Phase Transition into Review/Defect Loop and Per-Phase Commit
 
