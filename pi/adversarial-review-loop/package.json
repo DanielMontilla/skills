@@ -1,0 +1,23 @@
+{
+  "name": "@montflow/adversarial-review-loop",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pi extension: automated adversarial review loop (reviewer → fixer → verifier cycle)",
+  "pi": {
+    "extensions": ["./index.js"]
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit --allowJs --checkJs --moduleResolution bundler --module esnext --target es2022 --strict --noEmit index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "^0.74.0",
+    "@earendil-works/pi-coding-agent": "^0.74.0"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-ai": "^0.74.0",
+    "@earendil-works/pi-coding-agent": "^0.74.0",
+    "typescript": "^5.5.0"
+  }
+}
