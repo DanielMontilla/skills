@@ -9,14 +9,14 @@
 
 - [ ] Feature root dir created under `.agents/features/<name>/`
 - [ ] `FEATURE.md` exists with frontmatter, description, requirements, and task table
-- [ ] Task directories created with phase prefixes (A01, A02, B01...)
-- [ ] Each task dir contains `TASK.md` and `MEMORY.md`
+- [ ] Task directories created with phase prefixes (A001, A002, B001...)
+- [ ] Each task dir contains `TASK.md` and `MEMORY.md` (and `REVIEW.md` for every review task)
 
 ## Phase 2: Content Review
 
 - [ ] Tasks are properly grouped into sequential Phases (Phase A → Phase B)
 - [ ] Every `TASK.md` has a valid `type` defined in frontmatter (`exploratory`, `execution`, `planning`, `interruptor`, `defect`, `review`)
-- [ ] Inter-phase dependencies are correct (tasks in Phase B depend on Phase A)
+- [ ] `depends-on` references same-phase or earlier-phase IDs only; no cycles
 - [ ] Phase interruptions are documented (expecting user validation at the end of each Phase)
 - [ ] Each Phase ends with a `review` task run by an independent subagent, with findings in `REVIEW.md` and a human sign-off gate
 - [ ] `GATES.md` correctly placed for tasks that require validation (not restricted to execution tasks)

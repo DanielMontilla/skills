@@ -1,14 +1,14 @@
-## Phase 0: Core Validation
+## Stage 0: Core Validation
 
 - [ ] format:check
 - [ ] lint:check
 
-## Phase 1: Verification
+## Stage 1: Verification
 
-- [ ] ts:check
+- [ ] ts:check (if applicable)
 - [ ] test (if applicable)
 
-## Phase 2: Custom Checks
+## Stage 2: Custom Checks
 
 - [ ] <custom validation>
 - [ ] <custom validation>

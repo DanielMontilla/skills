@@ -1,5 +1,31 @@
 # Changelog
 
+## [3.3.0] - 2026-07-18
+
+### Added
+
+- `Gates` column documented in FEATURE.md Frontmatter Reference (`Yes` if per-task GATES.md exists, else `No`) (adversarial-review m10)
+- `locked-phases` instruction: "Leave empty at authoring; populated by executor on phase commits" (adversarial-review n12)
+
+### Changed
+
+- Review task requirement hardened from "**Highly recommended**" to "**MUST**" — every Phase must end with a `review` task, matching the GATES.md Phase 2 gate check (adversarial-review M1)
+- Phase prefix formalized from `<LETTER>`/`<PHASE_LETTER>` to `<LETTERS>`/`<PHASE_LETTERS>` across all templates (TASK.md frontmatter, heading, REVIEW.md header, Scope block, SKILL.md naming format, dependency rule) supporting multi-letter prefixes (AA, AB…) beyond 26 phases (adversarial-review m11, m11-undone, m-v3-18)
+- GATES.md dependency check broadened from inter-phase only to "same-phase or earlier-phase IDs only; no cycles" (adversarial-review m9)
+- GATES.md task ID examples updated from 2-digit to 3-digit (`A001, A002, B001…`) (adversarial-review m3)
+- `templates/REVIEW.md` now covers "accepted, deferred, or dismissed" in Human Review checklist (adversarial-review m4)
+- `templates/REVIEW.md` header clarifies "problem (with trigger)" instead of standalone trigger field (adversarial-review m5)
+- `templates/GATES.md` labels re-labeled from "Phase 0/1/2" to "Stage 0/1/2" to disambiguate from feature phases (adversarial-review n15)
+- Collapsed self-referential CRITICAL note in Step 1 into a single instruction (adversarial-review n13)
+- `workspace-type: worktree` now explicitly set for feature worktree case, not just detached HEAD (adversarial-review n14)
+- Removed redundant "do not proceed" repetition in Step 1 field-collection instruction (adversarial-review n-v2-17)
+
+### Fixed
+
+- `templates/GATES.md`: `ts:check` made conditional (`if applicable`) for non-TypeScript projects (adversarial-review m6)
+- Reference section now includes `REVIEW.md` in the MUST-READ template list (adversarial-review m7)
+- Phase 1 gate now checks for `REVIEW.md` presence in review task directories (adversarial-review m8)
+
 ## [3.2.2] - 2026-07-14
 
 ### Fixed
