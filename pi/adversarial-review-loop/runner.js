@@ -18,7 +18,7 @@ import {
  */
 
 /**
- * @typedef {{ prompt: (task: string) => Promise<AgentRunResult>, dispose: () => void }} PersistentAgent
+ * @typedef {{ prompt: (task: string, timeoutMs?: number) => Promise<AgentRunResult>, dispose: () => void }} PersistentAgent
  */
 
 /**
@@ -73,9 +73,14 @@ function onToolEnd(event, label) {
  * @param {import('@earendil-works/pi-coding-agent').AgentSession} session
  * @param {string} task
  * @param {string} modelLabel
+ * @param {number} [timeoutMs]
  * @returns {Promise<AgentRunResult>}
  */
-async function runOneTurn(session, task, modelLabel) {
+async function runOneTurn(session, task, modelLabel, timeoutMs = 600000) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(`Agent run timed out after ${timeoutMs}ms`)), timeoutMs)
+  );
+
   /** @type {import('@earendil-works/pi-coding-agent').AgentSessionEvent[]} */
   const events = [];
   const unsub = session.subscribe((event) => {
@@ -85,12 +90,17 @@ async function runOneTurn(session, task, modelLabel) {
   });
 
   try {
-    await session.prompt(task);
-    await session.agent.waitForIdle();
+    await Promise.race([
+      (async () => {
+        await session.prompt(task);
+        await session.agent.waitForIdle();
+      })(),
+      timeout,
+    ]);
   } catch (err) {
     return { text: '', error: err instanceof Error ? err.message : String(err) };
   } finally {
-    if (typeof unsub === 'function') unsub();
+    unsub();
   }
 
   const text = extractAssistantText(events);
@@ -102,12 +112,13 @@ async function runOneTurn(session, task, modelLabel) {
 /**
  * Run a single-use agent: one prompt, fresh context.
  * @param {AgentRunOptions} options
+ * @param {number} [timeoutMs]
  * @returns {Promise<AgentRunResult>}
  */
-export async function runAgent(options) {
+export async function runAgent(options, timeoutMs) {
   const session = await createSession(options);
   try {
-    return await runOneTurn(session, options.task, options.model);
+    return await runOneTurn(session, options.task, options.model, timeoutMs);
   } finally {
     session.dispose();
   }
@@ -118,12 +129,13 @@ export async function runAgent(options) {
  * The same context (system prompt, conversation history) carries forward.
  * Use for the reviewer so it remembers previous cycles' findings.
  * @param {AgentSessionOptions} options
+ * @param {number} [defaultTimeoutMs]
  * @returns {Promise<PersistentAgent>}
  */
-export async function createPersistentAgent(options) {
+export async function createPersistentAgent(options, defaultTimeoutMs) {
   const session = await createSession(options);
   return {
-    prompt: (task) => runOneTurn(session, task, options.model),
+    prompt: (task, timeoutMs) => runOneTurn(session, task, options.model, timeoutMs ?? defaultTimeoutMs),
     dispose: () => {
       session.dispose();
     },
@@ -140,6 +152,13 @@ export async function createPersistentAgent(options) {
  * This is option (b) of finding F6 — explicit data-dependency reference over
  * hardcoded skill content. The agents have `read`, so they load the files
  * themselves.
+ *
+ * The reviewer is created as a persistent agent via `createPersistentAgent`,
+ * carrying conversation history across cycles so it remembers prior findings.
+ * To prevent unbounded context growth, when the cycle count exceeds 3 the
+ * reviewer task is prefixed with a context-summarization instruction
+ * (see `reReviewPrefix` in index.js). The review file remains the canonical
+ * state; the persistent context is a convenience, not a necessity.
  *
  * @param {AgentSessionOptions} options
  * @returns {Promise<import('@earendil-works/pi-coding-agent').AgentSession>}
