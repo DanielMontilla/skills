@@ -33,8 +33,14 @@ const SUMMARY_RE = /^## Summary\s*$([\s\S]*?)(?=^##\s|$(?![\s\S]))/m;
  */
 export function parseSummary(filePath) {
   if (!fs.existsSync(filePath)) return null;
-  const text = fs.readFileSync(filePath, 'utf8');
-  return parseSummaryText(text);
+  try {
+    const text = fs.readFileSync(filePath, 'utf8');
+    return parseSummaryText(text);
+  } catch {
+    // Defensive: treat unreadable files as not-terminal so the loop keeps
+    // iterating rather than crashing or falsely declaring victory.
+    return null;
+  }
 }
 
 /**
