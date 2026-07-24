@@ -2,7 +2,7 @@
 name: adding-references
 description: Adds and manages third-party reference source code as cloned git repositories. Use when the user wants to add reference source code for local reading or analysis.
 author: Daniel Montilla
-version: 2.0.0
+version: 2.1.0
 license: MIT
 dependencies:
   - executing-skills
@@ -27,7 +27,7 @@ Use when the user asks to add reference source code, pull in third-party code fo
 2. **Directory**: ensure at repository root.
 3. **References directory**: ensure `.agents/references/` exists. Create it if missing:
    ```bash
-   mkdir -p .agents/references
+   mkdir -p .agents/references && touch .agents/references/.gitkeep
    ```
 4. **Gitignore**: ensure `.agents/references` is listed in `.gitignore`. If not, append it:
    ```bash

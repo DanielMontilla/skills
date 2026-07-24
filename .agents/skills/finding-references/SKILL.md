@@ -2,7 +2,7 @@
 name: finding-references
 description: Finds, explores, and reports on third-party reference source code cloned into the project. Use when the user wants to examine reference code, find a specific reference package, or understand available reference dependencies.
 author: Daniel Montilla
-version: 2.0.0
+version: 2.1.0
 license: MIT
 dependencies:
   - executing-skills
@@ -29,14 +29,22 @@ Determine which reference or type of reference code the user needs based on thei
 
 Search the `.agents/references/` directory for matching reference packages using Glob. Cross-reference with the Reference Registry in the Reference section below.
 
-## 3. Present Information
+## 3. Clone Missing Reference (if needed)
+
+If the requested reference is not found locally but exists in the Reference Registry:
+1. Look up the URL from the Reference Registry table
+2. Run: `mkdir -p .agents/references && touch .agents/references/.gitkeep`
+3. Run: `git clone <url> .agents/references/<reference-name>`
+4. Verify: `ls -R .agents/references/<reference-name>`
+
+## 4. Present Information
 
 For each matching reference, provide:
 - **Path**: Location under `.agents/references/`
 - **Purpose**: What the library does
 - **URL**: Original source repository
 
-## 4. Read Reference Code (if requested)
+## 5. Read Reference Code (if requested)
 
 If the user wants to read or analyze reference source, navigate to the reference directory and read the relevant files.
 

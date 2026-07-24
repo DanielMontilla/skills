@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0] - 2026-07-24
+
+### Added
+
+- `.gitkeep` creation in `.agents/references/` during pre-execution validation
+
+## [2.0.1] - 2026-07-24
+
+### Fixed
+
+- Corrected reference installation step: pre-create `.agents/references/.gitkeep` in pipeline step 1 (was only in clone command)
+
 ## [2.0.0] - 2026-07-22
 
 ### Changed

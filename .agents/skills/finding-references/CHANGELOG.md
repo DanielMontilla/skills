@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.1.0] - 2026-07-24
+
+### Added
+
+- New pipeline step 3: clone missing references from Reference Registry URLs
+- `.gitkeep` creation in `.agents/references/` during reference lookup
+
+### Changed
+
+- Pipeline now auto-clones references not found locally using registry URLs
+
 ## [2.0.0] - 2026-07-22
 
 ### Changed
